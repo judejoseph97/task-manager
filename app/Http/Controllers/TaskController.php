@@ -55,7 +55,10 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        $this->authorize('view', $task);
+        if (auth()->id() !== $task->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+    
         return view('tasks.show', compact('task'));
     }
 
@@ -64,7 +67,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $this->authorize('update', $task);
+        if (auth()->id() !== $task->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
         return view('tasks.edit', compact('task'));
     }
 
@@ -73,8 +78,9 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $this->authorize('update', $task);
-
+        if (auth()->id() !== $task->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -90,9 +96,11 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $this->authorize('delete', $task);
+        if (auth()->id() !== $task->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+    
         $task->delete();
-
-        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
+      return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
     }
 }
