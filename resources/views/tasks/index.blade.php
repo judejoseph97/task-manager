@@ -10,9 +10,9 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
   
-    @if($tasks)
+    @if($tasksExist)
    
-        <table class="table">
+           <table class="table">
             <thead>
                 <tr>
                     <th>#</th>

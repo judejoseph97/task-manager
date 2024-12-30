@@ -14,15 +14,13 @@ class TaskController extends Controller
     {
         
         $tasks = auth()->user()->tasks;
-        return view('tasks.index', compact('tasks'));
+        $tasksExist = $tasks->isNotEmpty();
+        return view('tasks.index', compact('tasks','tasksExist'));
         
 
     }
 
-    public function hasTasks()
-        {
-            return $this->tasks()->exists();
-        }
+
     /**
      * Show the form for creating a new resource.
      */
