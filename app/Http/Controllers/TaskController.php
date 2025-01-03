@@ -94,11 +94,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        if (auth()->id() !== $task->user_id) {
-            abort(403, 'Unauthorized action.');
-        }
-    
+        $this->authorize('destroy', $task);
         $task->delete();
-      return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
-    }
+
+        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
+}
+
 }
